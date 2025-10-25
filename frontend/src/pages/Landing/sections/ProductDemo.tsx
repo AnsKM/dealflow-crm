@@ -1,6 +1,10 @@
 import { motion } from 'framer-motion';
 import { useState } from 'react';
 import { ChevronLeft, ChevronRight } from 'lucide-react';
+import dashboardOverview from '../../../assets/dashboard-mockup-hero.png';
+import dealsList from '../../../assets/app-deals-list.png';
+import dealDetail from '../../../assets/app-deal-detail.png';
+import analytics from '../../../assets/app-analytics.png';
 
 export const ProductDemo = () => {
   const [currentSlide, setCurrentSlide] = useState(0);
@@ -13,7 +17,7 @@ export const ProductDemo = () => {
       visual: (
         <div className="rounded-lg overflow-hidden shadow-xl">
           <img
-            src="/screenshots/dashboard-mockup-hero.png"
+            src={dashboardOverview}
             alt="DealFlow Dashboard mit KI-Insights und Health Scores"
             className="w-full h-auto"
           />
@@ -27,7 +31,7 @@ export const ProductDemo = () => {
       visual: (
         <div className="rounded-lg overflow-hidden shadow-xl">
           <img
-            src="/screenshots/app-deals-list.png"
+            src={dealsList}
             alt="Deal Pipeline mit automatischen Health Scores"
             className="w-full h-auto"
           />
@@ -41,7 +45,7 @@ export const ProductDemo = () => {
       visual: (
         <div className="rounded-lg overflow-hidden shadow-xl">
           <img
-            src="/screenshots/app-deal-detail.png"
+            src={dealDetail}
             alt="Deal-Detailansicht mit KI-generierten Empfehlungen"
             className="w-full h-auto"
           />
@@ -55,7 +59,7 @@ export const ProductDemo = () => {
       visual: (
         <div className="rounded-lg overflow-hidden shadow-xl">
           <img
-            src="/screenshots/app-analytics.png"
+            src={analytics}
             alt="Analytics Dashboard mit Pipeline-Insights"
             className="w-full h-auto"
           />
