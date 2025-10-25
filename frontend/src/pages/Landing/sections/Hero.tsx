@@ -89,7 +89,7 @@ export const Hero = () => {
             ✓ Keine Kreditkarte erforderlich • ✓ 14 Tage kostenlos • ✓ Jederzeit kündbar
           </motion.div>
 
-          {/* Hero Visual Placeholder */}
+          {/* Hero Visual - Real Dashboard Screenshot */}
           <motion.div
             initial={{ opacity: 0, y: 50 }}
             animate={{ opacity: 1, y: 0 }}
@@ -97,14 +97,11 @@ export const Hero = () => {
             className="mt-16 max-w-5xl mx-auto"
           >
             <div className="bg-white rounded-2xl shadow-2xl p-2 transform perspective-1000 rotate-x-2">
-              <div className="bg-gradient-to-br from-gray-50 to-gray-100 rounded-xl p-8 aspect-video flex items-center justify-center">
-                <div className="text-center">
-                  <div className="inline-block bg-primary-100 text-primary-700 px-6 py-3 rounded-full font-bold mb-4">
-                    Dashboard Mockup
-                  </div>
-                  <p className="text-gray-600">DealFlow Interface Preview</p>
-                </div>
-              </div>
+              <img
+                src="/screenshots/dashboard-mockup-hero.png"
+                alt="DealFlow Dashboard mit KI-Insights und Health Scores"
+                className="rounded-xl w-full h-auto"
+              />
             </div>
           </motion.div>
         </div>

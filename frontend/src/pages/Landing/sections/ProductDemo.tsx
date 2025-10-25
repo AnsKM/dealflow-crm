@@ -13,7 +13,7 @@ export const ProductDemo = () => {
       visual: (
         <div className="rounded-lg overflow-hidden shadow-xl">
           <img
-            src="/screenshots/app-overview-dashboard.png"
+            src="/screenshots/dashboard-mockup-hero.png"
             alt="DealFlow Dashboard mit KI-Insights und Health Scores"
             className="w-full h-auto"
           />
