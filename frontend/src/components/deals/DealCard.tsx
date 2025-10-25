@@ -19,7 +19,7 @@ export const DealCard = ({ deal }: DealCardProps) => {
 
   return (
     <div
-      onClick={() => navigate(`/deals/${deal.id}`)}
+      onClick={() => navigate(`/app/deals/${deal.id}`)}
       className="card hover:shadow-md cursor-pointer transition-shadow"
     >
       {/* Header */}

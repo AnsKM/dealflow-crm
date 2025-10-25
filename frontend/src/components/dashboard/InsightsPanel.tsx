@@ -134,7 +134,7 @@ export const InsightsPanel = () => {
             {at_risk_deals.map((deal) => (
               <div
                 key={deal.id}
-                onClick={() => navigate(`/deals/${deal.id}`)}
+                onClick={() => navigate(`/app/deals/${deal.id}`)}
                 className="flex items-center justify-between p-3 bg-gray-50 rounded-lg hover:bg-gray-100 cursor-pointer transition-colors"
               >
                 <div className="flex-1">

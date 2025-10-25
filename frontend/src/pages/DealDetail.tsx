@@ -12,7 +12,6 @@ import {
   Edit,
   Sparkles,
 } from "lucide-react";
-import { Layout } from "../components/layout/Layout";
 import { ActivityTimeline } from "../components/deals/ActivityTimeline";
 import { dealsApi } from "../services/api";
 import {
@@ -20,7 +19,6 @@ import {
   formatDate,
   getHealthScoreColor,
   getStageLabel,
-  getStageColor,
 } from "../utils/format";
 import clsx from "clsx";
 import type { DealUpdate } from "../types";
@@ -60,7 +58,7 @@ export const DealDetail = () => {
   const deleteMutation = useMutation({
     mutationFn: (id: number) => dealsApi.delete(id),
     onSuccess: () => {
-      navigate("/dashboard");
+      navigate("/app/deals");
     },
   });
 
@@ -84,29 +82,25 @@ export const DealDetail = () => {
 
   if (isLoading) {
     return (
-      <Layout>
-        <div className="text-center py-12">
-          <div className="inline-block animate-spin rounded-full h-12 w-12 border-b-2 border-primary-600"></div>
-        </div>
-      </Layout>
+      <div className="text-center py-12">
+        <div className="inline-block animate-spin rounded-full h-12 w-12 border-b-2 border-primary-600"></div>
+      </div>
     );
   }
 
   if (error || !deal) {
     return (
-      <Layout>
-        <div className="text-center py-12">
-          <p className="text-red-600">Deal nicht gefunden.</p>
-        </div>
-      </Layout>
+      <div className="text-center py-12">
+        <p className="text-red-600">Deal nicht gefunden.</p>
+      </div>
     );
   }
 
   return (
-    <Layout>
+    <div>
       {/* Back Button */}
       <button
-        onClick={() => navigate("/dashboard")}
+        onClick={() => navigate("/app/overview")}
         className="flex items-center text-gray-600 hover:text-gray-900 mb-6"
       >
         <ArrowLeft className="w-5 h-5 mr-2" />
@@ -281,6 +275,6 @@ export const DealDetail = () => {
           </div>
         </div>
       </div>
-    </Layout>
+    </div>
   );
 };

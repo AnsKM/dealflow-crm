@@ -1,13 +1,8 @@
-import { ReactNode } from "react";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, NavLink, Outlet } from "react-router-dom";
 import { LogOut, LayoutDashboard } from "lucide-react";
 import { useAuth } from "../../hooks/useAuth";
 
-interface LayoutProps {
-  children: ReactNode;
-}
-
-export const Layout = ({ children }: LayoutProps) => {
+export const Layout = () => {
   const { user, logout } = useAuth();
   const navigate = useNavigate();
 
@@ -25,6 +20,40 @@ export const Layout = ({ children }: LayoutProps) => {
             <div className="flex items-center space-x-3">
               <LayoutDashboard className="w-8 h-8 text-primary-600" />
               <h1 className="text-2xl font-bold text-gray-900">DealFlow</h1>
+              <nav className="hidden md:flex items-center space-x-2 ml-6">
+                <NavLink
+                  to="/app/overview"
+                  className={({ isActive }) =>
+                    `px-3 py-2 rounded-lg text-sm font-medium ${isActive ? "bg-primary-600 text-white" : "text-gray-600 hover:text-gray-900 hover:bg-gray-100"}`
+                  }
+                >
+                  Übersicht
+                </NavLink>
+                <NavLink
+                  to="/app/deals"
+                  className={({ isActive }) =>
+                    `px-3 py-2 rounded-lg text-sm font-medium ${isActive ? "bg-primary-600 text-white" : "text-gray-600 hover:text-gray-900 hover:bg-gray-100"}`
+                  }
+                >
+                  Deals
+                </NavLink>
+                <NavLink
+                  to="/app/analytics"
+                  className={({ isActive }) =>
+                    `px-3 py-2 rounded-lg text-sm font-medium ${isActive ? "bg-primary-600 text-white" : "text-gray-600 hover:text-gray-900 hover:bg-gray-100"}`
+                  }
+                >
+                  Analytics
+                </NavLink>
+                <NavLink
+                  to="/app/settings"
+                  className={({ isActive }) =>
+                    `px-3 py-2 rounded-lg text-sm font-medium ${isActive ? "bg-primary-600 text-white" : "text-gray-600 hover:text-gray-900 hover:bg-gray-100"}`
+                  }
+                >
+                  Einstellungen
+                </NavLink>
+              </nav>
             </div>
 
             <div className="flex items-center space-x-4">
@@ -48,7 +77,7 @@ export const Layout = ({ children }: LayoutProps) => {
 
       {/* Main content */}
       <main className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
-        {children}
+        <Outlet />
       </main>
     </div>
   );

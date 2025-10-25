@@ -38,7 +38,7 @@ export const Login = () => {
         : await authApi.login({ email: data.email, password: data.password });
 
       setAuth(response.user, response.access_token);
-      navigate("/dashboard");
+      navigate(isRegister ? "/welcome" : "/app/overview");
     } catch (err: any) {
       setError(
         err.response?.data?.detail ||
