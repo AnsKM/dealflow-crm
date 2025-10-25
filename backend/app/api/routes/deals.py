@@ -89,6 +89,66 @@ async def list_deals(
     return DealListResponse(deals=deals_with_actions, total=total)
 
 
+@router.get("/insights/summary", response_model=DealInsights)
+async def get_deal_insights(
+    db: Session = Depends(get_db_session),
+    tenant_id: int = Depends(get_tenant_id),
+):
+    """
+    Get comprehensive deal insights and analytics.
+
+    Returns:
+        - Pipeline summary statistics
+        - At-risk deals
+        - High-priority deals
+        - Upcoming close dates
+        - Stage conversion rates
+    """
+    # Get pipeline summary
+    summary = insights_service.get_pipeline_summary(db, tenant_id)
+
+    # Get weekly summary text
+    weekly_summary = insights_service.get_weekly_summary(db, tenant_id)
+
+    # Get at-risk deals
+    at_risk_deals = insights_service.get_at_risk_deals(db, tenant_id)
+    at_risk_responses = []
+    for deal in at_risk_deals[:5]:  # Limit to top 5
+        response = DealResponse.model_validate(deal)
+        response.next_actions = ai_service.generate_next_actions(deal)
+        at_risk_responses.append(response)
+
+    # Get high-priority deals
+    high_priority_deals = insights_service.get_high_priority_deals(db, tenant_id)
+    high_priority_responses = []
+    for deal in high_priority_deals[:5]:
+        response = DealResponse.model_validate(deal)
+        response.next_actions = ai_service.generate_next_actions(deal)
+        high_priority_responses.append(response)
+
+    # Get upcoming close deals
+    upcoming_close = insights_service.get_upcoming_close_dates(db, tenant_id, days=14)
+    upcoming_responses = []
+    for deal in upcoming_close:
+        response = DealResponse.model_validate(deal)
+        response.next_actions = ai_service.generate_next_actions(deal)
+        upcoming_responses.append(response)
+
+    # Get stage conversion rates
+    conversion_rates = insights_service.get_stage_conversion_rates(db, tenant_id)
+
+    logger.info(f"Generated insights for tenant {tenant_id}")
+
+    return DealInsights(
+        summary=PipelineSummary(**summary),
+        weekly_summary=weekly_summary,
+        at_risk_deals=at_risk_responses,
+        high_priority_deals=high_priority_responses,
+        upcoming_close_deals=upcoming_responses,
+        stage_conversion_rates=conversion_rates,
+    )
+
+
 @router.get("/{deal_id}", response_model=DealResponse)
 async def get_deal(
     deal_id: int,
@@ -196,66 +256,6 @@ async def delete_deal(
     db.commit()
 
     logger.info(f"Deleted deal {deal_id}")
-
-
-@router.get("/insights/summary", response_model=DealInsights)
-async def get_deal_insights(
-    db: Session = Depends(get_db_session),
-    tenant_id: int = Depends(get_tenant_id),
-):
-    """
-    Get comprehensive deal insights and analytics.
-
-    Returns:
-        - Pipeline summary statistics
-        - At-risk deals
-        - High-priority deals
-        - Upcoming close dates
-        - Stage conversion rates
-    """
-    # Get pipeline summary
-    summary = insights_service.get_pipeline_summary(db, tenant_id)
-
-    # Get weekly summary text
-    weekly_summary = insights_service.get_weekly_summary(db, tenant_id)
-
-    # Get at-risk deals
-    at_risk_deals = insights_service.get_at_risk_deals(db, tenant_id)
-    at_risk_responses = []
-    for deal in at_risk_deals[:5]:  # Limit to top 5
-        response = DealResponse.model_validate(deal)
-        response.next_actions = ai_service.generate_next_actions(deal)
-        at_risk_responses.append(response)
-
-    # Get high-priority deals
-    high_priority_deals = insights_service.get_high_priority_deals(db, tenant_id)
-    high_priority_responses = []
-    for deal in high_priority_deals[:5]:
-        response = DealResponse.model_validate(deal)
-        response.next_actions = ai_service.generate_next_actions(deal)
-        high_priority_responses.append(response)
-
-    # Get upcoming close deals
-    upcoming_close = insights_service.get_upcoming_close_dates(db, tenant_id, days=14)
-    upcoming_responses = []
-    for deal in upcoming_close:
-        response = DealResponse.model_validate(deal)
-        response.next_actions = ai_service.generate_next_actions(deal)
-        upcoming_responses.append(response)
-
-    # Get stage conversion rates
-    conversion_rates = insights_service.get_stage_conversion_rates(db, tenant_id)
-
-    logger.info(f"Generated insights for tenant {tenant_id}")
-
-    return DealInsights(
-        summary=PipelineSummary(**summary),
-        weekly_summary=weekly_summary,
-        at_risk_deals=at_risk_responses,
-        high_priority_deals=high_priority_responses,
-        upcoming_close_deals=upcoming_responses,
-        stage_conversion_rates=conversion_rates,
-    )
 
 
 @router.post("/bulk", response_model=List[DealResponse], status_code=status.HTTP_201_CREATED)
