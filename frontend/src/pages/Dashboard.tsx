@@ -30,7 +30,16 @@ export const Dashboard = () => {
   })
 
   const handleCreateDeal = (data: DealCreate) => {
-    createMutation.mutate(data)
+    // Clean up empty fields before sending to API
+    const cleanedData = {
+      ...data,
+      expected_close_date: data.expected_close_date ? data.expected_close_date : null,
+      notes: data.notes || null,
+      contact_person: data.contact_person || null,
+      contact_email: data.contact_email || null,
+      contact_phone: data.contact_phone || null,
+    }
+    createMutation.mutate(cleanedData as DealCreate)
   }
 
   if (error) {

@@ -31,7 +31,12 @@ def calculate_deal_health_score(deal: Deal) -> int:
 
     # Factor 1: Last contact (40 points max)
     if deal.last_contact_at:
-        days_since_contact = (now_utc() - deal.last_contact_at).days
+        # Make last_contact_at timezone-aware if it isn't
+        last_contact = deal.last_contact_at
+        if last_contact.tzinfo is None:
+            from datetime import timezone
+            last_contact = last_contact.replace(tzinfo=timezone.utc)
+        days_since_contact = (now_utc() - last_contact).days
 
         if days_since_contact <= 3:
             score += 40
@@ -48,7 +53,12 @@ def calculate_deal_health_score(deal: Deal) -> int:
 
     # Factor 2: Expected close date (30 points max)
     if deal.expected_close_date:
-        days_until_close = (deal.expected_close_date - now_utc()).days
+        # Make expected_close_date timezone-aware if it isn't
+        close_date = deal.expected_close_date
+        if close_date.tzinfo is None:
+            from datetime import timezone
+            close_date = close_date.replace(tzinfo=timezone.utc)
+        days_until_close = (close_date - now_utc()).days
 
         if days_until_close < 0:
             # Overdue - bad sign
@@ -81,7 +91,11 @@ def calculate_deal_health_score(deal: Deal) -> int:
     score += stage_scores.get(deal.stage, 0)
 
     # Factor 4: Deal age (10 points max)
-    deal_age_days = (now_utc() - deal.created_at).days
+    if deal.created_at:
+        deal_age_days = (now_utc() - deal.created_at).days
+    else:
+        # New deal with no created_at timestamp, treat as very fresh
+        deal_age_days = 0
 
     if deal_age_days <= 7:
         # Fresh deal

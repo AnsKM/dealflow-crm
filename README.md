@@ -100,7 +100,7 @@ docker-compose ps
 docker-compose exec backend python seed_data.py
 
 # 6. Anwendung öffnen
-open http://localhost:5173
+open http://localhost:5174
 ```
 
 **Login-Daten (nach Seeding):**
@@ -108,26 +108,46 @@ open http://localhost:5173
 - Passwort: `demo123`
 
 ### Services
-- **Frontend:** http://localhost:5173 (React + Vite)
+- **Frontend:** http://localhost:5174 (React + Vite - CRM DealFlow App)
 - **Backend API:** http://localhost:8000 (FastAPI)
 - **API Docs:** http://localhost:8000/docs (Swagger UI)
 - **PostgreSQL:** localhost:5432
 
+**Note:** Port 5173 is used by a different app (Interview Assistant). The CRM DealFlow app runs on port 5174.
+
 ### Alternativ: Lokale Entwicklung
 
+**Database Options:**
+The application supports both PostgreSQL (production) and SQLite (local development).
+
+- **PostgreSQL (recommended for Docker/production):** Use Docker Compose as shown above
+- **SQLite (simpler for local development):** Already configured in `backend/.env` - no setup needed
+
+To switch databases, edit `backend/.env`:
+```bash
+# For PostgreSQL (requires Docker):
+DATABASE_URL=postgresql://dealflow:dealflow123@localhost:5432/dealflow_db
+
+# For SQLite (default - no Docker needed):
+DATABASE_URL=sqlite:///./dealflow.db
+```
+
+**Local Development Steps:**
 ```bash
 # Backend
 cd backend
 python -m venv venv
 source venv/bin/activate
 pip install -r requirements.txt
-uvicorn app.main:app --reload
+uvicorn app.main:app --reload --port 8000
 
-# Frontend
+# Frontend (in new terminal)
 cd frontend
 npm install
 npm run dev
 ```
+
+The app will be available at http://localhost:5174
 
 ---
 
