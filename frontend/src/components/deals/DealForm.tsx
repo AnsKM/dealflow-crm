@@ -1,13 +1,13 @@
-import { useForm } from 'react-hook-form'
-import { X } from 'lucide-react'
-import type { DealCreate } from '../../types'
-import { DealStage } from '../../types'
-import { getStageLabel } from '../../utils/format'
+import { useForm } from "react-hook-form";
+import { X } from "lucide-react";
+import type { DealCreate } from "../../types";
+import { DealStage } from "../../types";
+import { getStageLabel } from "../../utils/format";
 
 interface DealFormProps {
-  onSubmit: (data: DealCreate) => void
-  onClose: () => void
-  isLoading?: boolean
+  onSubmit: (data: DealCreate) => void;
+  onClose: () => void;
+  isLoading?: boolean;
 }
 
 export const DealForm = ({ onSubmit, onClose, isLoading }: DealFormProps) => {
@@ -19,7 +19,7 @@ export const DealForm = ({ onSubmit, onClose, isLoading }: DealFormProps) => {
     defaultValues: {
       stage: DealStage.LEAD,
     },
-  })
+  });
 
   return (
     <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center p-4 z-50">
@@ -42,12 +42,14 @@ export const DealForm = ({ onSubmit, onClose, isLoading }: DealFormProps) => {
             <label className="label">Deal-Titel *</label>
             <input
               type="text"
-              {...register('title', { required: 'Titel ist erforderlich' })}
+              {...register("title", { required: "Titel ist erforderlich" })}
               className="input"
               placeholder="z.B. CRM-Software für Vertriebsabteilung"
             />
             {errors.title && (
-              <p className="text-sm text-red-600 mt-1">{errors.title.message}</p>
+              <p className="text-sm text-red-600 mt-1">
+                {errors.title.message}
+              </p>
             )}
           </div>
 
@@ -56,12 +58,16 @@ export const DealForm = ({ onSubmit, onClose, isLoading }: DealFormProps) => {
             <label className="label">Firma *</label>
             <input
               type="text"
-              {...register('company_name', { required: 'Firma ist erforderlich' })}
+              {...register("company_name", {
+                required: "Firma ist erforderlich",
+              })}
               className="input"
               placeholder="z.B. Mustermann GmbH"
             />
             {errors.company_name && (
-              <p className="text-sm text-red-600 mt-1">{errors.company_name.message}</p>
+              <p className="text-sm text-red-600 mt-1">
+                {errors.company_name.message}
+              </p>
             )}
           </div>
 
@@ -70,7 +76,7 @@ export const DealForm = ({ onSubmit, onClose, isLoading }: DealFormProps) => {
             <label className="label">Ansprechpartner</label>
             <input
               type="text"
-              {...register('contact_person')}
+              {...register("contact_person")}
               className="input"
               placeholder="z.B. Max Mustermann"
             />
@@ -82,7 +88,7 @@ export const DealForm = ({ onSubmit, onClose, isLoading }: DealFormProps) => {
               <label className="label">E-Mail</label>
               <input
                 type="email"
-                {...register('contact_email')}
+                {...register("contact_email")}
                 className="input"
                 placeholder="max@firma.de"
               />
@@ -91,7 +97,7 @@ export const DealForm = ({ onSubmit, onClose, isLoading }: DealFormProps) => {
               <label className="label">Telefon</label>
               <input
                 type="tel"
-                {...register('contact_phone')}
+                {...register("contact_phone")}
                 className="input"
                 placeholder="+49 123 456789"
               />
@@ -104,24 +110,29 @@ export const DealForm = ({ onSubmit, onClose, isLoading }: DealFormProps) => {
             <input
               type="number"
               step="0.01"
-              {...register('value', {
-                required: 'Wert ist erforderlich',
-                min: { value: 0, message: 'Wert muss positiv sein' },
+              {...register("value", {
+                required: "Wert ist erforderlich",
+                min: { value: 0, message: "Wert muss positiv sein" },
               })}
               className="input"
               placeholder="10000.00"
             />
             {errors.value && (
-              <p className="text-sm text-red-600 mt-1">{errors.value.message}</p>
+              <p className="text-sm text-red-600 mt-1">
+                {errors.value.message}
+              </p>
             )}
           </div>
 
           {/* Stage */}
           <div>
             <label className="label">Stage</label>
-            <select {...register('stage')} className="input">
+            <select {...register("stage")} className="input">
               {Object.values(DealStage)
-                .filter((s) => s !== DealStage.CLOSED_WON && s !== DealStage.CLOSED_LOST)
+                .filter(
+                  (s) =>
+                    s !== DealStage.CLOSED_WON && s !== DealStage.CLOSED_LOST,
+                )
                 .map((stage) => (
                   <option key={stage} value={stage}>
                     {getStageLabel(stage)}
@@ -135,7 +146,7 @@ export const DealForm = ({ onSubmit, onClose, isLoading }: DealFormProps) => {
             <label className="label">Erwartetes Abschlussdatum</label>
             <input
               type="date"
-              {...register('expected_close_date')}
+              {...register("expected_close_date")}
               className="input"
             />
           </div>
@@ -144,7 +155,7 @@ export const DealForm = ({ onSubmit, onClose, isLoading }: DealFormProps) => {
           <div>
             <label className="label">Notizen</label>
             <textarea
-              {...register('notes')}
+              {...register("notes")}
               className="input"
               rows={3}
               placeholder="Zusätzliche Informationen..."
@@ -166,11 +177,11 @@ export const DealForm = ({ onSubmit, onClose, isLoading }: DealFormProps) => {
               className="btn btn-primary"
               disabled={isLoading}
             >
-              {isLoading ? 'Speichert...' : 'Deal erstellen'}
+              {isLoading ? "Speichert..." : "Deal erstellen"}
             </button>
           </div>
         </form>
       </div>
     </div>
-  )
-}
+  );
+};

@@ -1,46 +1,50 @@
-import { useState } from 'react'
-import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query'
-import { Plus, Filter } from 'lucide-react'
-import { Layout } from '../components/layout/Layout'
-import { DealCard } from '../components/deals/DealCard'
-import { DealForm } from '../components/deals/DealForm'
-import { dealsApi } from '../services/api'
-import type { DealCreate } from '../types'
-import { DealStage } from '../types'
-import { getStageLabel } from '../utils/format'
+import { useState } from "react";
+import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
+import { Plus, Filter } from "lucide-react";
+import { Layout } from "../components/layout/Layout";
+import { DealCard } from "../components/deals/DealCard";
+import { DealForm } from "../components/deals/DealForm";
+import { DashboardCharts } from "../components/dashboard/DashboardCharts";
+import { InsightsPanel } from "../components/dashboard/InsightsPanel";
+import { dealsApi } from "../services/api";
+import type { DealCreate } from "../types";
+import { DealStage } from "../types";
+import { getStageLabel } from "../utils/format";
 
 export const Dashboard = () => {
-  const [showForm, setShowForm] = useState(false)
-  const [stageFilter, setStageFilter] = useState<DealStage | ''>('')
-  const queryClient = useQueryClient()
+  const [showForm, setShowForm] = useState(false);
+  const [stageFilter, setStageFilter] = useState<DealStage | "">("");
+  const queryClient = useQueryClient();
 
   // Fetch deals
   const { data, isLoading, error } = useQuery({
-    queryKey: ['deals', stageFilter],
+    queryKey: ["deals", stageFilter],
     queryFn: () => dealsApi.list(stageFilter || undefined),
-  })
+  });
 
   // Create deal mutation
   const createMutation = useMutation({
     mutationFn: (data: DealCreate) => dealsApi.create(data),
     onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: ['deals'] })
-      setShowForm(false)
+      queryClient.invalidateQueries({ queryKey: ["deals"] });
+      setShowForm(false);
     },
-  })
+  });
 
   const handleCreateDeal = (data: DealCreate) => {
     // Clean up empty fields before sending to API
     const cleanedData = {
       ...data,
-      expected_close_date: data.expected_close_date ? data.expected_close_date : null,
+      expected_close_date: data.expected_close_date
+        ? data.expected_close_date
+        : null,
       notes: data.notes || null,
       contact_person: data.contact_person || null,
       contact_email: data.contact_email || null,
       contact_phone: data.contact_phone || null,
-    }
-    createMutation.mutate(cleanedData as DealCreate)
-  }
+    };
+    createMutation.mutate(cleanedData as DealCreate);
+  };
 
   if (error) {
     return (
@@ -51,7 +55,7 @@ export const Dashboard = () => {
           </p>
         </div>
       </Layout>
-    )
+    );
   }
 
   return (
@@ -71,7 +75,7 @@ export const Dashboard = () => {
             <Filter className="w-5 h-5 text-gray-600" />
             <select
               value={stageFilter}
-              onChange={(e) => setStageFilter(e.target.value as DealStage | '')}
+              onChange={(e) => setStageFilter(e.target.value as DealStage | "")}
               className="input py-2"
             >
               <option value="">Alle Stages</option>
@@ -99,6 +103,14 @@ export const Dashboard = () => {
           <div className="inline-block animate-spin rounded-full h-12 w-12 border-b-2 border-primary-600"></div>
           <p className="text-gray-600 mt-4">Deals werden geladen...</p>
         </div>
+      )}
+
+      {/* Insights Panel */}
+      {!isLoading && data && data.deals.length > 0 && <InsightsPanel />}
+
+      {/* Dashboard Charts */}
+      {!isLoading && data && data.deals.length > 0 && (
+        <DashboardCharts deals={data.deals} />
       )}
 
       {/* Deals Grid */}
@@ -129,5 +141,5 @@ export const Dashboard = () => {
         />
       )}
     </Layout>
-  )
-}
+  );
+};

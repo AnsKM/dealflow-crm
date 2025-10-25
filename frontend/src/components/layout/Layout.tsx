@@ -1,20 +1,20 @@
-import { ReactNode } from 'react'
-import { useNavigate } from 'react-router-dom'
-import { LogOut, LayoutDashboard } from 'lucide-react'
-import { useAuth } from '../../hooks/useAuth'
+import { ReactNode } from "react";
+import { useNavigate } from "react-router-dom";
+import { LogOut, LayoutDashboard } from "lucide-react";
+import { useAuth } from "../../hooks/useAuth";
 
 interface LayoutProps {
-  children: ReactNode
+  children: ReactNode;
 }
 
 export const Layout = ({ children }: LayoutProps) => {
-  const { user, logout } = useAuth()
-  const navigate = useNavigate()
+  const { user, logout } = useAuth();
+  const navigate = useNavigate();
 
   const handleLogout = () => {
-    logout()
-    navigate('/login')
-  }
+    logout();
+    navigate("/login");
+  };
 
   return (
     <div className="min-h-screen bg-gray-50">
@@ -51,5 +51,5 @@ export const Layout = ({ children }: LayoutProps) => {
         {children}
       </main>
     </div>
-  )
-}
+  );
+};

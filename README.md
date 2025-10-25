@@ -81,7 +81,23 @@ External Services:
 - Docker & Docker Compose
 - (Optional) Node.js 20+ und Python 3.12+ für lokale Entwicklung
 
-### Schnellstart mit Docker Compose
+### One-Command Quick Start
+
+```bash
+# Clone and navigate to the repository
+cd /Users/anskhalid/CascadeProjects/CRM_software_MVP/technical
+
+# Run the quick start script (builds, starts, and seeds data)
+./quick_start.sh
+```
+
+This script will:
+- Build and start all Docker containers
+- Wait for services to be healthy
+- Seed the database with 20 realistic B2B German deals
+- Display demo credentials and useful commands
+
+### Manual Setup
 
 ```bash
 # 1. Repository klonen
@@ -510,6 +526,238 @@ const updateMutation = useMutation({
 - Fokus auf Web-First (Sales-Teams am Desktop)
 - Offline-Sync komplex bei Konflikt-Resolution
 - Next Step: Mobile App (React Native) mit eigenem Offline-Konzept
+
+---
+
+## 🔗 Automation & Integration (Everlast Consulting Highlight)
+
+DealFlow is built with automation-first mindset, providing comprehensive webhook and bulk operation APIs for seamless integration with popular automation platforms.
+
+### Webhook Integrations
+
+DealFlow exposes three webhook endpoints designed for Zapier, Make.com, n8n, and similar automation platforms:
+
+#### Available Webhooks
+
+**1. Deal Updated Webhook**
+```bash
+POST /api/webhooks/deal-updated?deal_id={id}
+```
+**Use Cases:**
+- Send Slack notification when deal moves to "Negotiation" stage
+- Update external CRM systems (Salesforce, HubSpot)
+- Create tasks in project management tools (Asana, Monday.com)
+
+**Example Response:**
+```json
+{
+  "event": "deal.updated",
+  "deal": { ...deal data... },
+  "tenant_id": 1,
+  "timestamp": "2025-10-25T10:30:00Z"
+}
+```
+
+**2. Deal Won Webhook**
+```bash
+POST /api/webhooks/deal-won?deal_id={id}
+```
+**Use Cases:**
+- Send congratulations email to sales team
+- Trigger onboarding workflow in customer success platform
+- Create commission calculation in finance system
+- Add customer to revenue tracking sheet
+
+**Example Response:**
+```json
+{
+  "event": "deal.won",
+  "deal": { ...deal data... },
+  "value": 125000.00,
+  "company": "Siemens AG",
+  "contact": {
+    "name": "Michael Müller",
+    "email": "michael.mueller@siemens.de",
+    "phone": "+49 89 1234 5678"
+  }
+}
+```
+
+**3. Health Alert Webhook**
+```bash
+POST /api/webhooks/health-alert?deal_id={id}
+```
+**Use Cases:**
+- Alert sales manager when deal health drops below 40%
+- Schedule urgent follow-up call in calendar
+- Create escalation ticket
+- Send email reminder to account owner
+
+**Example Response:**
+```json
+{
+  "event": "deal.health_alert",
+  "deal": { ...deal data... },
+  "health_score": 35,
+  "alert_level": "critical",
+  "recommended_actions": [
+    "Schedule immediate follow-up call",
+    "Review deal status with team"
+  ]
+}
+```
+
+### Zapier Integration Example
+
+**Scenario:** Send Slack message when deal enters negotiation stage
+
+```yaml
+Trigger: Webhook (POST /api/webhooks/deal-updated)
+Filter: deal.stage == "negotiation"
+Action: Send Slack Message
+  Channel: #sales-team
+  Message: "🎯 {{deal.title}} with {{deal.company_name}} is now in negotiation! Value: €{{deal.value}}"
+```
+
+### Make.com Workflow Example
+
+**Scenario:** Create Google Calendar reminder 3 days before expected close date
+
+```yaml
+1. Webhook Trigger: /api/webhooks/deal-updated
+2. Date Module: Calculate (expected_close_date - 3 days)
+3. Google Calendar: Create Event
+   Title: "Follow up: {{deal.title}}"
+   Description: "Deal closing soon with {{deal.company_name}}"
+   Date: {{calculated_date}}
+```
+
+### Bulk Operations API
+
+DealFlow provides efficient bulk endpoints for CSV imports and batch processing:
+
+#### Bulk Create Deals
+```bash
+POST /api/deals/bulk
+Content-Type: application/json
+
+[
+  {
+    "title": "ERP Migration Project",
+    "company_name": "BMW Group",
+    "value": 250000,
+    "stage": "qualified",
+    "contact_person": "Anna Schmidt",
+    "contact_email": "a.schmidt@bmw.de"
+  },
+  {
+    "title": "Cloud Infrastructure Upgrade",
+    "company_name": "SAP Deutschland",
+    "value": 180000,
+    "stage": "proposal"
+  }
+]
+```
+
+**Limits:** Max 100 deals per request
+
+#### Bulk Update Deals
+```bash
+PATCH /api/deals/bulk-update
+Content-Type: application/json
+
+[
+  {"id": 1, "stage": "negotiation"},
+  {"id": 2, "health_score": 85},
+  {"id": 3, "stage": "closed_won", "notes": "Contract signed!"}
+]
+```
+
+**Use Cases:**
+- Import deals from CSV export
+- Batch stage updates after team meeting
+- Sync data from external systems
+- Automated health score adjustments
+
+### Advanced Insights API
+
+Get comprehensive pipeline analytics for dashboards and reporting:
+
+```bash
+GET /api/deals/insights/summary
+```
+
+**Returns:**
+- Pipeline summary statistics
+- At-risk deals (health < 40 or no contact in 7+ days)
+- High-priority deals (>€100k in negotiation/proposal)
+- Deals closing in next 14 days
+- Stage conversion rates
+
+**Example Response:**
+```json
+{
+  "summary": {
+    "active_deals": 18,
+    "pipeline_value": 2450000.00,
+    "average_health_score": 67.3,
+    "at_risk_count": 3,
+    "revenue_at_risk": 185000.00,
+    "closing_soon_count": 5
+  },
+  "weekly_summary": "3 Deals benötigen Aufmerksamkeit | 5 Deals schließen in den nächsten 7 Tagen",
+  "at_risk_deals": [...],
+  "high_priority_deals": [...],
+  "upcoming_close_deals": [...]
+}
+```
+
+### n8n Workflow Example
+
+**Scenario:** Automated health monitoring and team notifications
+
+```yaml
+1. Schedule Trigger: Daily at 9:00 AM
+2. HTTP Request: GET /api/deals/insights/summary
+3. IF: at_risk_count > 0
+   THEN:
+     - HTTP Request: GET at-risk deal details
+     - Loop: For each at-risk deal
+       - Send Email to account owner
+       - Create task in Asana
+       - Log to Google Sheets
+```
+
+### Security: Webhook Signatures (Optional)
+
+For production deployments, webhook endpoints support HMAC SHA256 signature verification:
+
+```bash
+# Generate signature (Python example)
+import hmac
+import hashlib
+
+secret = "your-webhook-secret"
+payload = '{"deal_id": 123}'
+signature = hmac.new(secret.encode(), payload.encode(), hashlib.sha256).hexdigest()
+
+# Send request with signature
+headers = {"X-Webhook-Signature": signature}
+```
+
+**Environment Variable:** `WEBHOOK_SECRET` (set in backend/.env)
+
+### API Documentation
+
+Full interactive API documentation available at:
+- **Swagger UI:** http://localhost:8000/docs
+- **ReDoc:** http://localhost:8000/redoc
+
+All endpoints include:
+- Request/response schemas
+- Example payloads
+- Authentication requirements
+- Error codes and handling
 
 ---
 

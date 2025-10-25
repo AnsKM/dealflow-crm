@@ -1,21 +1,21 @@
-import { useNavigate } from 'react-router-dom'
-import { Building2, Calendar, TrendingUp, Circle } from 'lucide-react'
-import type { Deal } from '../../types'
+import { useNavigate } from "react-router-dom";
+import { Building2, Calendar, TrendingUp, Circle } from "lucide-react";
+import type { Deal } from "../../types";
 import {
   formatCurrency,
   formatRelativeTime,
   getHealthScoreColor,
   getStageLabel,
   getStageColor,
-} from '../../utils/format'
-import clsx from 'clsx'
+} from "../../utils/format";
+import clsx from "clsx";
 
 interface DealCardProps {
-  deal: Deal
+  deal: Deal;
 }
 
 export const DealCard = ({ deal }: DealCardProps) => {
-  const navigate = useNavigate()
+  const navigate = useNavigate();
 
   return (
     <div
@@ -37,8 +37,8 @@ export const DealCard = ({ deal }: DealCardProps) => {
         {/* Health Score */}
         <div
           className={clsx(
-            'px-3 py-1 rounded-full text-xs font-semibold',
-            getHealthScoreColor(deal.health_score)
+            "px-3 py-1 rounded-full text-xs font-semibold",
+            getHealthScoreColor(deal.health_score),
           )}
         >
           {deal.health_score}%
@@ -52,7 +52,12 @@ export const DealCard = ({ deal }: DealCardProps) => {
           {formatCurrency(Number(deal.value))}
         </div>
 
-        <span className={clsx('px-3 py-1 rounded-full text-xs font-medium', getStageColor(deal.stage))}>
+        <span
+          className={clsx(
+            "px-3 py-1 rounded-full text-xs font-medium",
+            getStageColor(deal.stage),
+          )}
+        >
           {getStageLabel(deal.stage)}
         </span>
       </div>
@@ -82,5 +87,5 @@ export const DealCard = ({ deal }: DealCardProps) => {
         </div>
       )}
     </div>
-  )
-}
+  );
+};

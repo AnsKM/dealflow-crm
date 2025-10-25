@@ -1,14 +1,21 @@
-import { useState } from 'react'
-import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query'
-import { useForm } from 'react-hook-form'
-import { MessageSquare, Phone, Mail, Calendar, RefreshCw, Plus } from 'lucide-react'
-import { activitiesApi } from '../../services/api'
-import type { ActivityCreate } from '../../types'
-import { ActivityType } from '../../types'
-import { formatDateTime } from '../../utils/format'
+import { useState } from "react";
+import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
+import { useForm } from "react-hook-form";
+import {
+  MessageSquare,
+  Phone,
+  Mail,
+  Calendar,
+  RefreshCw,
+  Plus,
+} from "lucide-react";
+import { activitiesApi } from "../../services/api";
+import type { ActivityCreate } from "../../types";
+import { ActivityType } from "../../types";
+import { formatDateTime } from "../../utils/format";
 
 interface ActivityTimelineProps {
-  dealId: number
+  dealId: number;
 }
 
 const activityIcons = {
@@ -18,42 +25,50 @@ const activityIcons = {
   [ActivityType.MEETING]: Calendar,
   [ActivityType.STAGE_CHANGE]: RefreshCw,
   [ActivityType.SYSTEM]: RefreshCw,
-}
+};
 
 export const ActivityTimeline = ({ dealId }: ActivityTimelineProps) => {
-  const [showForm, setShowForm] = useState(false)
-  const queryClient = useQueryClient()
+  const [showForm, setShowForm] = useState(false);
+  const queryClient = useQueryClient();
 
   const {
     register,
     handleSubmit,
     reset,
     formState: { errors },
-  } = useForm<{ activity_type: ActivityType; title: string; description?: string }>()
+  } = useForm<{
+    activity_type: ActivityType;
+    title: string;
+    description?: string;
+  }>();
 
   // Fetch activities
   const { data: activities, isLoading } = useQuery({
-    queryKey: ['activities', dealId],
+    queryKey: ["activities", dealId],
     queryFn: () => activitiesApi.list(dealId),
-  })
+  });
 
   // Create activity mutation
   const createMutation = useMutation({
     mutationFn: (data: ActivityCreate) => activitiesApi.create(data),
     onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: ['activities', dealId] })
-      queryClient.invalidateQueries({ queryKey: ['deal', String(dealId)] })
-      reset()
-      setShowForm(false)
+      queryClient.invalidateQueries({ queryKey: ["activities", dealId] });
+      queryClient.invalidateQueries({ queryKey: ["deal", String(dealId)] });
+      reset();
+      setShowForm(false);
     },
-  })
+  });
 
-  const onSubmit = (data: { activity_type: ActivityType; title: string; description?: string }) => {
+  const onSubmit = (data: {
+    activity_type: ActivityType;
+    title: string;
+    description?: string;
+  }) => {
     createMutation.mutate({
       deal_id: dealId,
       ...data,
-    })
-  }
+    });
+  };
 
   return (
     <div className="card">
@@ -70,10 +85,16 @@ export const ActivityTimeline = ({ dealId }: ActivityTimelineProps) => {
 
       {/* Add Activity Form */}
       {showForm && (
-        <form onSubmit={handleSubmit(onSubmit)} className="mb-6 p-4 bg-gray-50 rounded-lg space-y-3">
+        <form
+          onSubmit={handleSubmit(onSubmit)}
+          className="mb-6 p-4 bg-gray-50 rounded-lg space-y-3"
+        >
           <div>
             <label className="label">Typ</label>
-            <select {...register('activity_type', { required: true })} className="input">
+            <select
+              {...register("activity_type", { required: true })}
+              className="input"
+            >
               <option value={ActivityType.NOTE}>Notiz</option>
               <option value={ActivityType.CALL}>Anruf</option>
               <option value={ActivityType.EMAIL}>E-Mail</option>
@@ -85,19 +106,21 @@ export const ActivityTimeline = ({ dealId }: ActivityTimelineProps) => {
             <label className="label">Titel</label>
             <input
               type="text"
-              {...register('title', { required: 'Titel ist erforderlich' })}
+              {...register("title", { required: "Titel ist erforderlich" })}
               className="input"
               placeholder="z.B. Follow-up Anruf"
             />
             {errors.title && (
-              <p className="text-sm text-red-600 mt-1">{errors.title.message}</p>
+              <p className="text-sm text-red-600 mt-1">
+                {errors.title.message}
+              </p>
             )}
           </div>
 
           <div>
             <label className="label">Beschreibung</label>
             <textarea
-              {...register('description')}
+              {...register("description")}
               className="input"
               rows={2}
               placeholder="Details..."
@@ -117,7 +140,7 @@ export const ActivityTimeline = ({ dealId }: ActivityTimelineProps) => {
               className="btn btn-primary text-sm"
               disabled={createMutation.isPending}
             >
-              {createMutation.isPending ? 'Speichert...' : 'Speichern'}
+              {createMutation.isPending ? "Speichert..." : "Speichern"}
             </button>
           </div>
         </form>
@@ -131,7 +154,7 @@ export const ActivityTimeline = ({ dealId }: ActivityTimelineProps) => {
       ) : activities && activities.length > 0 ? (
         <div className="space-y-4">
           {activities.map((activity, idx) => {
-            const Icon = activityIcons[activity.activity_type]
+            const Icon = activityIcons[activity.activity_type];
             return (
               <div
                 key={activity.id}
@@ -142,7 +165,9 @@ export const ActivityTimeline = ({ dealId }: ActivityTimelineProps) => {
                 </div>
                 <div className="flex-1">
                   <div className="flex items-center justify-between mb-1">
-                    <h4 className="font-medium text-gray-900">{activity.title}</h4>
+                    <h4 className="font-medium text-gray-900">
+                      {activity.title}
+                    </h4>
                     <span className="text-xs text-gray-500">
                       {formatDateTime(activity.created_at)}
                     </span>
@@ -154,7 +179,7 @@ export const ActivityTimeline = ({ dealId }: ActivityTimelineProps) => {
                   )}
                 </div>
               </div>
-            )
+            );
           })}
         </div>
       ) : (
@@ -163,5 +188,5 @@ export const ActivityTimeline = ({ dealId }: ActivityTimelineProps) => {
         </p>
       )}
     </div>
-  )
-}
+  );
+};

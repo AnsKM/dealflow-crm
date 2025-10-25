@@ -6,7 +6,7 @@ from contextlib import asynccontextmanager
 from app.core.config import settings
 from app.core.logging import setup_logging, get_logger
 from app.db.database import engine, Base
-from app.api.routes import auth, deals, activities
+from app.api.routes import auth, deals, activities, webhooks
 
 # Setup logging
 setup_logging("INFO" if not settings.DEBUG else "DEBUG")
@@ -73,6 +73,7 @@ async def root():
 app.include_router(auth.router, prefix="/api/auth", tags=["Authentication"])
 app.include_router(deals.router, prefix="/api/deals", tags=["Deals"])
 app.include_router(activities.router, prefix="/api/activities", tags=["Activities"])
+app.include_router(webhooks.router, prefix="/api/webhooks", tags=["Webhooks"])
 
 
 if __name__ == "__main__":

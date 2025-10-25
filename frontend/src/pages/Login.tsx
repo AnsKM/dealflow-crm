@@ -1,53 +1,53 @@
-import { useState } from 'react'
-import { useNavigate } from 'react-router-dom'
-import { useForm } from 'react-hook-form'
-import { LayoutDashboard } from 'lucide-react'
-import { authApi } from '../services/api'
-import { useAuth } from '../hooks/useAuth'
+import { useState } from "react";
+import { useNavigate } from "react-router-dom";
+import { useForm } from "react-hook-form";
+import { LayoutDashboard } from "lucide-react";
+import { authApi } from "../services/api";
+import { useAuth } from "../hooks/useAuth";
 
 interface LoginForm {
-  email: string
-  password: string
+  email: string;
+  password: string;
 }
 
 interface RegisterForm extends LoginForm {
-  full_name: string
-  tenant_name: string
+  full_name: string;
+  tenant_name: string;
 }
 
 export const Login = () => {
-  const [isRegister, setIsRegister] = useState(false)
-  const [error, setError] = useState('')
-  const [isLoading, setIsLoading] = useState(false)
-  const navigate = useNavigate()
-  const { setAuth } = useAuth()
+  const [isRegister, setIsRegister] = useState(false);
+  const [error, setError] = useState("");
+  const [isLoading, setIsLoading] = useState(false);
+  const navigate = useNavigate();
+  const { setAuth } = useAuth();
 
   const {
     register,
     handleSubmit,
     formState: { errors },
-  } = useForm<RegisterForm>()
+  } = useForm<RegisterForm>();
 
   const onSubmit = async (data: RegisterForm) => {
-    setError('')
-    setIsLoading(true)
+    setError("");
+    setIsLoading(true);
 
     try {
       const response = isRegister
         ? await authApi.register(data)
-        : await authApi.login({ email: data.email, password: data.password })
+        : await authApi.login({ email: data.email, password: data.password });
 
-      setAuth(response.user, response.access_token)
-      navigate('/dashboard')
+      setAuth(response.user, response.access_token);
+      navigate("/dashboard");
     } catch (err: any) {
       setError(
         err.response?.data?.detail ||
-          'Ein Fehler ist aufgetreten. Bitte versuchen Sie es erneut.'
-      )
+          "Ein Fehler ist aufgetreten. Bitte versuchen Sie es erneut.",
+      );
     } finally {
-      setIsLoading(false)
+      setIsLoading(false);
     }
-  }
+  };
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-primary-500 to-primary-700 flex items-center justify-center px-4">
@@ -66,7 +66,7 @@ export const Login = () => {
         {/* Form */}
         <div className="bg-white rounded-xl shadow-xl p-8">
           <h2 className="text-2xl font-bold text-gray-900 mb-6">
-            {isRegister ? 'Registrieren' : 'Anmelden'}
+            {isRegister ? "Registrieren" : "Anmelden"}
           </h2>
 
           {error && (
@@ -82,8 +82,8 @@ export const Login = () => {
                   <label className="label">Vollständiger Name</label>
                   <input
                     type="text"
-                    {...register('full_name', {
-                      required: 'Name ist erforderlich',
+                    {...register("full_name", {
+                      required: "Name ist erforderlich",
                     })}
                     className="input"
                     placeholder="Max Mustermann"
@@ -99,8 +99,8 @@ export const Login = () => {
                   <label className="label">Firmenname</label>
                   <input
                     type="text"
-                    {...register('tenant_name', {
-                      required: 'Firmenname ist erforderlich',
+                    {...register("tenant_name", {
+                      required: "Firmenname ist erforderlich",
                     })}
                     className="input"
                     placeholder="Meine Firma GmbH"
@@ -118,11 +118,11 @@ export const Login = () => {
               <label className="label">E-Mail</label>
               <input
                 type="email"
-                {...register('email', {
-                  required: 'E-Mail ist erforderlich',
+                {...register("email", {
+                  required: "E-Mail ist erforderlich",
                   pattern: {
                     value: /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}$/i,
-                    message: 'Ungültige E-Mail-Adresse',
+                    message: "Ungültige E-Mail-Adresse",
                   },
                 })}
                 className="input"
@@ -139,11 +139,11 @@ export const Login = () => {
               <label className="label">Passwort</label>
               <input
                 type="password"
-                {...register('password', {
-                  required: 'Passwort ist erforderlich',
+                {...register("password", {
+                  required: "Passwort ist erforderlich",
                   minLength: {
                     value: 6,
-                    message: 'Passwort muss mindestens 6 Zeichen lang sein',
+                    message: "Passwort muss mindestens 6 Zeichen lang sein",
                   },
                 })}
                 className="input"
@@ -161,11 +161,7 @@ export const Login = () => {
               disabled={isLoading}
               className="btn btn-primary w-full"
             >
-              {isLoading
-                ? 'Lädt...'
-                : isRegister
-                  ? 'Registrieren'
-                  : 'Anmelden'}
+              {isLoading ? "Lädt..." : isRegister ? "Registrieren" : "Anmelden"}
             </button>
           </form>
 
@@ -175,12 +171,12 @@ export const Login = () => {
               className="text-sm text-primary-600 hover:text-primary-700"
             >
               {isRegister
-                ? 'Bereits registriert? Jetzt anmelden'
-                : 'Noch kein Konto? Jetzt registrieren'}
+                ? "Bereits registriert? Jetzt anmelden"
+                : "Noch kein Konto? Jetzt registrieren"}
             </button>
           </div>
         </div>
       </div>
     </div>
-  )
-}
+  );
+};

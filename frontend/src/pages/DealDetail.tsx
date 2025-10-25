@@ -1,6 +1,6 @@
-import { useState } from 'react'
-import { useParams, useNavigate } from 'react-router-dom'
-import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query'
+import { useState } from "react";
+import { useParams, useNavigate } from "react-router-dom";
+import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
 import {
   ArrowLeft,
   Building2,
@@ -11,72 +11,76 @@ import {
   Trash2,
   Edit,
   Sparkles,
-} from 'lucide-react'
-import { Layout } from '../components/layout/Layout'
-import { ActivityTimeline } from '../components/deals/ActivityTimeline'
-import { dealsApi } from '../services/api'
+} from "lucide-react";
+import { Layout } from "../components/layout/Layout";
+import { ActivityTimeline } from "../components/deals/ActivityTimeline";
+import { dealsApi } from "../services/api";
 import {
   formatCurrency,
   formatDate,
   getHealthScoreColor,
   getStageLabel,
   getStageColor,
-} from '../utils/format'
-import clsx from 'clsx'
-import type { DealUpdate } from '../types'
-import { DealStage } from '../types'
+} from "../utils/format";
+import clsx from "clsx";
+import type { DealUpdate } from "../types";
+import { DealStage } from "../types";
 
 export const DealDetail = () => {
-  const { id } = useParams<{ id: string }>()
-  const navigate = useNavigate()
-  const queryClient = useQueryClient()
-  const [isEditing, setIsEditing] = useState(false)
-  const [editedStage, setEditedStage] = useState<DealStage | null>(null)
+  const { id } = useParams<{ id: string }>();
+  const navigate = useNavigate();
+  const queryClient = useQueryClient();
+  const [isEditing, setIsEditing] = useState(false);
+  const [editedStage, setEditedStage] = useState<DealStage | null>(null);
 
   // Fetch deal
-  const { data: deal, isLoading, error } = useQuery({
-    queryKey: ['deal', id],
+  const {
+    data: deal,
+    isLoading,
+    error,
+  } = useQuery({
+    queryKey: ["deal", id],
     queryFn: () => dealsApi.get(Number(id)),
     enabled: !!id,
-  })
+  });
 
   // Update deal mutation
   const updateMutation = useMutation({
     mutationFn: ({ id, data }: { id: number; data: DealUpdate }) =>
       dealsApi.update(id, data),
     onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: ['deal', id] })
-      queryClient.invalidateQueries({ queryKey: ['deals'] })
-      setIsEditing(false)
-      setEditedStage(null)
+      queryClient.invalidateQueries({ queryKey: ["deal", id] });
+      queryClient.invalidateQueries({ queryKey: ["deals"] });
+      setIsEditing(false);
+      setEditedStage(null);
     },
-  })
+  });
 
   // Delete deal mutation
   const deleteMutation = useMutation({
     mutationFn: (id: number) => dealsApi.delete(id),
     onSuccess: () => {
-      navigate('/dashboard')
+      navigate("/dashboard");
     },
-  })
+  });
 
   const handleStageChange = (newStage: DealStage) => {
     if (id) {
       updateMutation.mutate({
         id: Number(id),
         data: { stage: newStage },
-      })
+      });
     }
-  }
+  };
 
   const handleDelete = () => {
     if (
       id &&
-      window.confirm('Sind Sie sicher, dass Sie diesen Deal löschen möchten?')
+      window.confirm("Sind Sie sicher, dass Sie diesen Deal löschen möchten?")
     ) {
-      deleteMutation.mutate(Number(id))
+      deleteMutation.mutate(Number(id));
     }
-  }
+  };
 
   if (isLoading) {
     return (
@@ -85,7 +89,7 @@ export const DealDetail = () => {
           <div className="inline-block animate-spin rounded-full h-12 w-12 border-b-2 border-primary-600"></div>
         </div>
       </Layout>
-    )
+    );
   }
 
   if (error || !deal) {
@@ -95,14 +99,14 @@ export const DealDetail = () => {
           <p className="text-red-600">Deal nicht gefunden.</p>
         </div>
       </Layout>
-    )
+    );
   }
 
   return (
     <Layout>
       {/* Back Button */}
       <button
-        onClick={() => navigate('/dashboard')}
+        onClick={() => navigate("/dashboard")}
         className="flex items-center text-gray-600 hover:text-gray-900 mb-6"
       >
         <ArrowLeft className="w-5 h-5 mr-2" />
@@ -147,7 +151,7 @@ export const DealDetail = () => {
             <div className="space-y-2 mb-4">
               {deal.contact_person && (
                 <p className="text-gray-700">
-                  <span className="font-medium">Ansprechpartner:</span>{' '}
+                  <span className="font-medium">Ansprechpartner:</span>{" "}
                   {deal.contact_person}
                 </p>
               )}
@@ -188,8 +192,8 @@ export const DealDetail = () => {
                 <p className="text-sm text-gray-600 mb-1">Health Score</p>
                 <div
                   className={clsx(
-                    'inline-flex items-center px-3 py-1 rounded-full text-sm font-semibold',
-                    getHealthScoreColor(deal.health_score)
+                    "inline-flex items-center px-3 py-1 rounded-full text-sm font-semibold",
+                    getHealthScoreColor(deal.health_score),
                   )}
                 >
                   {deal.health_score}%
@@ -203,7 +207,7 @@ export const DealDetail = () => {
                   <Calendar className="w-4 h-4 mr-1" />
                   {deal.expected_close_date
                     ? formatDate(deal.expected_close_date)
-                    : 'Nicht festgelegt'}
+                    : "Nicht festgelegt"}
                 </div>
               </div>
             </div>
@@ -229,7 +233,9 @@ export const DealDetail = () => {
             {deal.notes && (
               <div className="mt-4">
                 <p className="label">Notizen</p>
-                <p className="text-gray-700 whitespace-pre-wrap">{deal.notes}</p>
+                <p className="text-gray-700 whitespace-pre-wrap">
+                  {deal.notes}
+                </p>
               </div>
             )}
           </div>
@@ -276,5 +282,5 @@ export const DealDetail = () => {
         </div>
       </div>
     </Layout>
-  )
-}
+  );
+};
