@@ -2,9 +2,9 @@ import { motion } from 'framer-motion';
 import { useState } from 'react';
 import { ChevronLeft, ChevronRight } from 'lucide-react';
 import dashboardOverview from '../../../assets/dashboard-mockup-hero.png';
-import dealsList from '../../../assets/app-deals-list.png';
-import dealDetail from '../../../assets/app-deal-detail.png';
-import analytics from '../../../assets/app-analytics.png';
+import dealsList from '../../../assets/deals-list.png';
+import dealDetail from '../../../assets/deal-detail.png';
+import analytics from '../../../assets/analytics.png';
 
 export const ProductDemo = () => {
   const [currentSlide, setCurrentSlide] = useState(0);
