@@ -92,7 +92,12 @@ def calculate_deal_health_score(deal: Deal) -> int:
 
     # Factor 4: Deal age (10 points max)
     if deal.created_at:
-        deal_age_days = (now_utc() - deal.created_at).days
+        # Make created_at timezone-aware if it isn't
+        created_at = deal.created_at
+        if created_at.tzinfo is None:
+            from datetime import timezone
+            created_at = created_at.replace(tzinfo=timezone.utc)
+        deal_age_days = (now_utc() - created_at).days
     else:
         # New deal with no created_at timestamp, treat as very fresh
         deal_age_days = 0
