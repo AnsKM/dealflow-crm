@@ -1,6 +1,7 @@
 import { motion } from 'framer-motion';
 import { Link } from 'react-router-dom';
 import { ArrowRight, Play } from 'lucide-react';
+import dashboardHero from '../../../assets/dashboard-hero.png';
 
 export const Hero = () => {
   return (
@@ -98,7 +99,7 @@ export const Hero = () => {
           >
             <div className="bg-white rounded-2xl shadow-2xl p-2 transform perspective-1000 rotate-x-2">
               <img
-                src="/screenshots/dashboard-hero.png"
+                src={dashboardHero}
                 alt="DealFlow Dashboard mit KI-Insights und Health Scores"
                 className="rounded-xl w-full h-auto"
               />
