@@ -1,20 +1,21 @@
 import { motion } from 'framer-motion';
+import { Zap, Workflow, Settings, Mail, MessageSquare, Calendar } from 'lucide-react';
 
 export const Integrations = () => {
   const integrations = {
     automation: [
-      { name: 'Zapier', category: 'Automation' },
-      { name: 'Make.com', category: 'Automation' },
-      { name: 'n8n', category: 'Automation' },
+      { name: 'Zapier', category: 'Automation', icon: Zap },
+      { name: 'Make.com', category: 'Automation', icon: Workflow },
+      { name: 'n8n', category: 'Automation', icon: Settings },
     ],
     communication: [
-      { name: 'Gmail', category: 'Email' },
-      { name: 'Outlook', category: 'Email' },
-      { name: 'Slack', category: 'Chat' },
+      { name: 'Gmail', category: 'Email', icon: Mail },
+      { name: 'Outlook', category: 'Email', icon: Mail },
+      { name: 'Slack', category: 'Chat', icon: MessageSquare },
     ],
     calendar: [
-      { name: 'Google Calendar', category: 'Kalender' },
-      { name: 'Outlook Calendar', category: 'Kalender' },
+      { name: 'Google Calendar', category: 'Kalender', icon: Calendar },
+      { name: 'Outlook Calendar', category: 'Kalender', icon: Calendar },
     ],
   };
 
@@ -42,20 +43,25 @@ export const Integrations = () => {
           <div>
             <h3 className="text-2xl font-bold text-gray-900 mb-6 text-center">Automation</h3>
             <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-              {integrations.automation.map((integration, index) => (
-                <motion.div
-                  key={integration.name}
-                  initial={{ opacity: 0, scale: 0.9 }}
-                  whileInView={{ opacity: 1, scale: 1 }}
-                  viewport={{ once: true }}
-                  transition={{ duration: 0.4, delay: index * 0.1 }}
-                  className="bg-gray-50 rounded-xl p-8 text-center hover:shadow-lg transition-shadow"
-                >
-                  <div className="text-4xl mb-4">🔗</div>
-                  <div className="text-xl font-bold text-gray-900">{integration.name}</div>
-                  <div className="text-sm text-gray-600 mt-2">{integration.category}</div>
-                </motion.div>
-              ))}
+              {integrations.automation.map((integration, index) => {
+                const Icon = integration.icon;
+                return (
+                  <motion.div
+                    key={integration.name}
+                    initial={{ opacity: 0, scale: 0.9 }}
+                    whileInView={{ opacity: 1, scale: 1 }}
+                    viewport={{ once: true }}
+                    transition={{ duration: 0.4, delay: index * 0.1 }}
+                    className="bg-gray-50 rounded-xl p-8 text-center hover:shadow-lg transition-shadow"
+                  >
+                    <div className="flex justify-center mb-4">
+                      <Icon className="w-12 h-12 text-primary-600" />
+                    </div>
+                    <div className="text-xl font-bold text-gray-900">{integration.name}</div>
+                    <div className="text-sm text-gray-600 mt-2">{integration.category}</div>
+                  </motion.div>
+                );
+              })}
             </div>
           </div>
 
@@ -63,20 +69,25 @@ export const Integrations = () => {
           <div>
             <h3 className="text-2xl font-bold text-gray-900 mb-6 text-center">Communication</h3>
             <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-              {integrations.communication.map((integration, index) => (
-                <motion.div
-                  key={integration.name}
-                  initial={{ opacity: 0, scale: 0.9 }}
-                  whileInView={{ opacity: 1, scale: 1 }}
-                  viewport={{ once: true }}
-                  transition={{ duration: 0.4, delay: index * 0.1 }}
-                  className="bg-gray-50 rounded-xl p-8 text-center hover:shadow-lg transition-shadow"
-                >
-                  <div className="text-4xl mb-4">✉️</div>
-                  <div className="text-xl font-bold text-gray-900">{integration.name}</div>
-                  <div className="text-sm text-gray-600 mt-2">{integration.category}</div>
-                </motion.div>
-              ))}
+              {integrations.communication.map((integration, index) => {
+                const Icon = integration.icon;
+                return (
+                  <motion.div
+                    key={integration.name}
+                    initial={{ opacity: 0, scale: 0.9 }}
+                    whileInView={{ opacity: 1, scale: 1 }}
+                    viewport={{ once: true }}
+                    transition={{ duration: 0.4, delay: index * 0.1 }}
+                    className="bg-gray-50 rounded-xl p-8 text-center hover:shadow-lg transition-shadow"
+                  >
+                    <div className="flex justify-center mb-4">
+                      <Icon className="w-12 h-12 text-primary-600" />
+                    </div>
+                    <div className="text-xl font-bold text-gray-900">{integration.name}</div>
+                    <div className="text-sm text-gray-600 mt-2">{integration.category}</div>
+                  </motion.div>
+                );
+              })}
             </div>
           </div>
 
@@ -84,20 +95,25 @@ export const Integrations = () => {
           <div>
             <h3 className="text-2xl font-bold text-gray-900 mb-6 text-center">Kalender</h3>
             <div className="grid grid-cols-1 md:grid-cols-2 gap-6 max-w-3xl mx-auto">
-              {integrations.calendar.map((integration, index) => (
-                <motion.div
-                  key={integration.name}
-                  initial={{ opacity: 0, scale: 0.9 }}
-                  whileInView={{ opacity: 1, scale: 1 }}
-                  viewport={{ once: true }}
-                  transition={{ duration: 0.4, delay: index * 0.1 }}
-                  className="bg-gray-50 rounded-xl p-8 text-center hover:shadow-lg transition-shadow"
-                >
-                  <div className="text-4xl mb-4">📅</div>
-                  <div className="text-xl font-bold text-gray-900">{integration.name}</div>
-                  <div className="text-sm text-gray-600 mt-2">{integration.category}</div>
-                </motion.div>
-              ))}
+              {integrations.calendar.map((integration, index) => {
+                const Icon = integration.icon;
+                return (
+                  <motion.div
+                    key={integration.name}
+                    initial={{ opacity: 0, scale: 0.9 }}
+                    whileInView={{ opacity: 1, scale: 1 }}
+                    viewport={{ once: true }}
+                    transition={{ duration: 0.4, delay: index * 0.1 }}
+                    className="bg-gray-50 rounded-xl p-8 text-center hover:shadow-lg transition-shadow"
+                  >
+                    <div className="flex justify-center mb-4">
+                      <Icon className="w-12 h-12 text-primary-600" />
+                    </div>
+                    <div className="text-xl font-bold text-gray-900">{integration.name}</div>
+                    <div className="text-sm text-gray-600 mt-2">{integration.category}</div>
+                  </motion.div>
+                );
+              })}
             </div>
           </div>
         </div>

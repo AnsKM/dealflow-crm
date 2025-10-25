@@ -4,7 +4,7 @@ import { InsightsPanel } from "../components/dashboard/InsightsPanel";
 import { DashboardCharts } from "../components/dashboard/DashboardCharts";
 
 export const Overview = () => {
-  const { data, isLoading, error } = useQuery({
+  const { data, isLoading } = useQuery({
     queryKey: ["deals", "overview"],
     queryFn: () => dealsApi.list(),
   });

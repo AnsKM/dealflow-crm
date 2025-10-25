@@ -56,7 +56,7 @@ export const Hero = () => {
               <span className="font-bold text-white">100% mehr Zeit für Verkauf.</span>
             </p>
             <p className="text-lg md:text-xl text-primary-100 mb-12 max-w-3xl mx-auto">
-              Automatisches Health-Scoring für jeden Deal. Powered by Google Gemini 2.5 Flash.
+              Automatisches Health-Scoring für jeden Deal. Powered by modernster KI-Technologie.
             </p>
           </motion.div>
 

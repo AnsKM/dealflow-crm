@@ -11,12 +11,12 @@ export const ProductDemo = () => {
       description: 'Alle wichtigen Metriken auf einen Blick',
       timestamp: '0:00',
       visual: (
-        <div className="bg-gradient-to-br from-primary-50 to-primary-100 rounded-lg p-8 aspect-video flex items-center justify-center">
-          <div className="text-center">
-            <div className="text-6xl mb-4">📊</div>
-            <div className="text-2xl font-bold text-primary-700">Dashboard</div>
-            <div className="text-gray-600 mt-2">Pipeline, Health Scores, Insights</div>
-          </div>
+        <div className="rounded-lg overflow-hidden shadow-xl">
+          <img
+            src="/screenshots/app-overview-dashboard.png"
+            alt="DealFlow Dashboard mit KI-Insights und Health Scores"
+            className="w-full h-auto"
+          />
         </div>
       ),
     },
@@ -25,28 +25,12 @@ export const ProductDemo = () => {
       description: 'Sofort erkennen, wo Handlungsbedarf besteht',
       timestamp: '0:15',
       visual: (
-        <div className="bg-white rounded-lg p-6 space-y-3">
-          <div className="flex items-center justify-between bg-green-50 p-4 rounded-lg border border-green-200">
-            <div>
-              <div className="font-bold text-gray-900">VW SAP-Migration</div>
-              <div className="text-sm text-gray-600">€450.000 • Verhandlung</div>
-            </div>
-            <div className="text-2xl font-black text-green-600">85%</div>
-          </div>
-          <div className="flex items-center justify-between bg-orange-50 p-4 rounded-lg border border-orange-200">
-            <div>
-              <div className="font-bold text-gray-900">SAP Oracle-Migration</div>
-              <div className="text-sm text-gray-600">€520.000 • Qualifikation</div>
-            </div>
-            <div className="text-2xl font-black text-orange-600">48%</div>
-          </div>
-          <div className="flex items-center justify-between bg-red-50 p-4 rounded-lg border border-red-200">
-            <div>
-              <div className="font-bold text-gray-900">BMW Cloud-Migration</div>
-              <div className="text-sm text-gray-600">€380.000 • Proposal</div>
-            </div>
-            <div className="text-2xl font-black text-red-600">32%</div>
-          </div>
+        <div className="rounded-lg overflow-hidden shadow-xl">
+          <img
+            src="/screenshots/app-deals-list.png"
+            alt="Deal Pipeline mit automatischen Health Scores"
+            className="w-full h-auto"
+          />
         </div>
       ),
     },
@@ -55,28 +39,12 @@ export const ProductDemo = () => {
       description: 'Intelligente Next Actions für jeden Deal',
       timestamp: '0:30',
       visual: (
-        <div className="bg-white rounded-lg p-6">
-          <div className="mb-4">
-            <div className="text-xl font-bold text-gray-900 mb-2">VW SAP-Migration</div>
-            <div className="flex items-center gap-2">
-              <div className="bg-green-500 text-white px-3 py-1 rounded text-sm font-bold">
-                85% Health
-              </div>
-              <div className="text-gray-600">€450.000</div>
-            </div>
-          </div>
-          <div className="bg-primary-50 rounded-lg p-4 space-y-3">
-            <div className="font-bold text-primary-700 mb-2">🤖 KI-Empfehlungen:</div>
-            <div className="bg-white p-3 rounded border border-primary-200">
-              💡 Vertrag finalisieren - Deal ist bereit für Abschluss
-            </div>
-            <div className="bg-white p-3 rounded border border-primary-200">
-              💡 Follow-up Call schedulen - Momentum nutzen
-            </div>
-            <div className="bg-white p-3 rounded border border-primary-200">
-              💡 Implementierungs-Timeline besprechen
-            </div>
-          </div>
+        <div className="rounded-lg overflow-hidden shadow-xl">
+          <img
+            src="/screenshots/app-deal-detail.png"
+            alt="Deal-Detailansicht mit KI-generierten Empfehlungen"
+            className="w-full h-auto"
+          />
         </div>
       ),
     },
@@ -85,22 +53,12 @@ export const ProductDemo = () => {
       description: 'Automatische Insights ohne manuelle Berechnung',
       timestamp: '0:45',
       visual: (
-        <div className="bg-white rounded-lg p-6">
-          <div className="grid grid-cols-2 gap-4 mb-4">
-            <div className="bg-primary-50 p-4 rounded text-center">
-              <div className="text-3xl font-black text-primary-600">€5.3M</div>
-              <div className="text-sm text-gray-600">Aktive Pipeline</div>
-            </div>
-            <div className="bg-green-50 p-4 rounded text-center">
-              <div className="text-3xl font-black text-green-600">18</div>
-              <div className="text-sm text-gray-600">Offene Deals</div>
-            </div>
-          </div>
-          <div className="bg-gray-50 rounded-lg p-4 flex items-center justify-center">
-            <div className="text-center text-gray-600">
-              📈 Pipeline-Trend Chart
-            </div>
-          </div>
+        <div className="rounded-lg overflow-hidden shadow-xl">
+          <img
+            src="/screenshots/app-analytics.png"
+            alt="Analytics Dashboard mit Pipeline-Insights"
+            className="w-full h-auto"
+          />
         </div>
       ),
     },

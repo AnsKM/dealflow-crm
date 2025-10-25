@@ -30,7 +30,7 @@ export const FAQ = () => {
     {
       question: 'Welche KI-Technologie nutzt DealFlow?',
       answer:
-        'DealFlow nutzt Google Gemini 2.5 Flash - eines der fortschrittlichsten KI-Modelle weltweit. Dies ermöglicht kontextbasierte Empfehlungen, präzises Health-Scoring basierend auf 4 Faktoren, Risiko-Früherkennung, und intelligente Pipeline-Insights. Die KI lernt kontinuierlich von Ihren Deals und wird mit der Zeit präziser.',
+        'DealFlow nutzt modernste KI-Technologie auf Enterprise-Niveau. Dies ermöglicht kontextbasierte Empfehlungen, präzises Health-Scoring basierend auf 4 Faktoren, Risiko-Früherkennung, und intelligente Pipeline-Insights. Die KI lernt kontinuierlich von Ihren Deals und wird mit der Zeit präziser.',
     },
   ];
 

@@ -153,7 +153,7 @@ export const ActivityTimeline = ({ dealId }: ActivityTimelineProps) => {
         </div>
       ) : activities && activities.length > 0 ? (
         <div className="space-y-4">
-          {activities.map((activity, idx) => {
+          {activities.map((activity) => {
             const Icon = activityIcons[activity.activity_type];
             return (
               <div

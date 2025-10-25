@@ -25,6 +25,26 @@ DealFlow ist ein **KI-gestützter CRM-Assistent**, der:
 
 ---
 
+## 📸 Screenshots
+
+### Dashboard Overview
+![Dashboard Overview](screenshots/app-overview-dashboard.png)
+*Hauptdashboard mit KI-generierten Insights, Health Scores und Pipeline-Metriken*
+
+### Deal Pipeline
+![Deal Pipeline](screenshots/app-deals-list.png)
+*Deal-Liste mit automatischen Health Scores und filterbaren Stages*
+
+### Deal Detail mit KI-Empfehlungen
+![Deal Detail](screenshots/app-deal-detail.png)
+*Deal-Detailansicht mit KI-generierten Next-Action-Empfehlungen und Activity Timeline*
+
+### Analytics Dashboard
+![Analytics](screenshots/app-analytics.png)
+*Umfassende Analytics mit Revenue Pipeline, Health Distribution, Deal Velocity und Durchschnitts-Health*
+
+---
+
 ## 🏗️ Architektur-Skizze
 
 ```

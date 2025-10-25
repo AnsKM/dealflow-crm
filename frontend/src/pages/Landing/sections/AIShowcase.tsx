@@ -63,7 +63,7 @@ export const AIShowcase = () => {
             </div>
           </div>
           <p className="text-sm text-gray-600 italic mt-4">
-            Powered by Google Gemini 2.5 Flash - Kontextverständnis auf höchstem Niveau
+            Powered by fortgeschrittener KI - Kontextverständnis auf höchstem Niveau
           </p>
         </div>
       ),
@@ -176,7 +176,7 @@ export const AIShowcase = () => {
           className="text-center mb-16"
         >
           <h2 className="text-4xl md:text-5xl font-bold text-gray-900 mb-4">
-            KI-Power von Google Gemini 2.5
+            Intelligente KI-Features
           </h2>
           <p className="text-xl text-gray-600">
             Nicht nur ein Add-on - KI ist das Herzstück von DealFlow

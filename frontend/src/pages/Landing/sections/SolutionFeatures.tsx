@@ -32,7 +32,7 @@ export const SolutionFeatures = () => {
           <FeatureCard
             icon={Sparkles}
             title="KI-Empfehlungen für jeden Deal"
-            description="Kontextbasierte Next-Actions in Echtzeit. Powered by Google Gemini 2.5 Flash für intelligente, situationsgerechte Vorschläge."
+            description="Kontextbasierte Next-Actions in Echtzeit. Powered by fortgeschrittener KI für intelligente, situationsgerechte Vorschläge."
             visual={
               <div className="space-y-2 text-left">
                 <div className="bg-primary-50 text-primary-700 px-4 py-2 rounded-lg text-sm">

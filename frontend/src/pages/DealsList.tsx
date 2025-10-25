@@ -15,7 +15,7 @@ export const DealsList = () => {
   const stageParam = (searchParams.get("stage") as DealStage) || "";
   const queryClient = useQueryClient();
 
-  const { data, isLoading, error } = useQuery({
+  const { data, isLoading } = useQuery({
     queryKey: ["deals", stageParam],
     queryFn: () => dealsApi.list(stageParam || undefined),
   });
